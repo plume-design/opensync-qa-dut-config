@@ -1,0 +1,7 @@
+device_type: mac
+# Username for device management SSH access
+username: plume
+# Password for device management SSH access
+password: plume
+# Stable FW version
+fw_version: null

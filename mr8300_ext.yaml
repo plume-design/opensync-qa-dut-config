@@ -1,0 +1,168 @@
+# Exact model name (case sensitive!)
+model_string: MR8300-EXT
+# DUT type. Available options: extender, residential_gateway
+device_type: extender
+# Username for device management SSH access (null if not supported)
+username: osync
+# Password for device management SSH access (null if not supported)
+password: osync123
+# Is Dynamic Frequency Selection (DFS) supported
+dfs: true
+# Is controller fully managing Home VAPs
+home_ap_managed: true
+# Supported security modes
+security: ['OPEN', 'WPA2']
+# Default regulatory domain
+regulatory_domain: US
+# Location of SSL certificates
+cert_dir_path: /var/run/openvswitch/certs
+# Location for firmware upgrade images
+fw_download_path: /tmp/pfirmware
+# OpenSync home directory
+opensync_rootdir: /usr/opensync
+# Append the following locations to the default system PATH
+shell_path: /bin:/sbin:/usr/bin:/usr/sbin:/opt/bin:/opt/sbin:/usr/opensync/tools:/usr/opensync/bin
+# Command for reading system logs (including any parameters, e.g. "cat /var/log/messages")
+logread: logread
+# 'logread method' for FRV. Available options: logread_v1, logread_v2 (json), logread_v3 (cat <file_name>)
+frv_logread: logread_v2
+# WiFi chip vendor (a.k.a. device family). Supported options: qca, bcm, mtk, rdk
+wifi_vendor: qca
+# Does device have a fan for active cooling
+active_cooling: false
+# Is device able to change the regulatory domain
+regulatory_domain_managed: true
+
+# Interface names and radio information (in case of a single 5 GHz radio, use only the '5g' key)
+interfaces:
+  radio_hw_mode:
+    24g: 11n
+    5g: null
+    5gl: 11ac
+    5gu: 11ac
+    6g: null
+
+  max_channel_width:
+    24g: 40
+    5g: null
+    5gl: 80
+    5gu: 80
+    6g: null
+
+  backhaul_sta:
+    24g: bhaul-sta-24
+    5g: null
+    5gl: bhaul-sta-l50
+    5gu: bhaul-sta-u50
+    6g: null
+
+  backhaul_ap:
+    24g: bhaul-ap-24
+    5g: null
+    5gl: bhaul-ap-l50
+    5gu: bhaul-ap-u50
+    6g: null
+
+  home_ap:
+    24g: home-ap-24
+    5g: null
+    5gl: home-ap-l50
+    5gu: home-ap-u50
+    6g: null
+
+  onboard_ap:
+    24g: onboard-ap-24
+    5g: null
+    5gl: onboard-ap-l50
+    5gu: onboard-ap-u50
+    6g: null
+
+  uplink_gre:
+    24g: g-bhaul-sta-24
+    5g: null
+    5gl: g-bhaul-sta-l50
+    5gu: g-bhaul-sta-u50
+    6g: null
+
+  phy_radio_name:
+    24g: phy1
+    5g: null
+    5gl: phy2
+    5gu: phy0
+    6g: null
+
+  radio_antennas:
+    24g: 2x2
+    5g: null
+    5gl: 2x2
+    5gu: 4x4
+    6g: null
+
+  vif_radio_idx:
+    backhaul_ap: 1
+    backhaul_sta: 0
+    home_ap: 2
+    onboard_ap: 3
+
+  radio_channels:
+    24g: [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 ]
+    5g: null
+    5gl: [ 36, 40, 44, 48, 52, 56, 60, 64 ]
+    5gu: [ 100, 104, 108, 112, 116, 120, 124, 128, 132, 136, 140, 144, 149, 153, 157, 161, 165 ]
+    6g: null
+
+  lan_bridge: br-lan
+  wan_bridge: br-wan
+  management_interface: eth1.4
+  primary_wan_interface: eth1
+  wan_interfaces: [eth0, eth1, eth0.835, eth1.835]
+  primary_lan_interface: eth0
+  lan_interfaces: [eth0, eth1]
+  ppp_wan_iterface: ppp-wan
+  patch_port_lan_to_wan: patch-h2w
+  patch_port_wan_to_lan: patch-w2h
+
+# Maximum Transmission Unit (MTU) per link
+mtu:
+  backhaul: 1600
+  uplink_gre: 1562
+  wan: 1500
+
+# Key Performance Indicators (in seconds)
+kpi:
+  # time needed to get shell response after power on
+  boot_time: 70
+  # time from power on until Bluetooth starts beaconing (if supported)
+  bt_on_time: 30
+  # power on till gateway connected to the cloud controller (a.k.a. onboarding time)
+  cloud_gw_onboard_time: 120
+  # power on till leaf pods connected to the cloud controller
+  cloud_leaf_onboard_time: 180
+  # total onboarding time for a location (gateway with two leaf pods)
+  cloud_location_onboard_time: 300
+  # time needed to get the first optimization after the location is onboarded
+  cloud_first_optimization: 180
+  # time needed to change the topology of a location (extended for CAC in case of DFS channels)
+  topology_change_time: 120
+  # time needed to update network credentials on Home VAPs
+  network_credential_update: 10
+  # Statistics Manager restart
+  sm_restart: 10
+
+# DUT sanity checks to be performed during testing
+frv_sanity:
+  # file name where syslog is stored
+  sys_log_file_name: messages
+  # OVSDB tables to be analyzed
+  tables: [['AWLAN_Node table'],
+          ['Manager table'],
+          ['Bridge table'],
+          ['DHCP_leased_IP table'],
+          ['Interface table'],
+          ['Wifi_Master_State table'],
+          ['Wifi_Inet_Config table', 'Wifi_Inet_State table'],
+          ['Wifi_Radio_Config table', 'Wifi_Radio_State table'],
+          ['Wifi_VIF_Config table', 'Wifi_VIF_State table'],
+          ['Wifi_Associated_Clients table'],
+          ['Radios country code check'],
+          ['Syslog sanity check']]
