@@ -1,0 +1,207 @@
+# Exact model name (case sensitive!)
+model_string: PP603X
+# DUT type. Available options: extender, residential_gateway
+device_type: extender
+# Username for device management SSH access (null if not supported)
+username: plume
+# Password for device management SSH access (null if not supported)
+password: Plume1234Development
+# Is Dynamic Frequency Selection (DFS) supported
+dfs: true
+# Is controller fully managing Home VAPs
+home_ap_managed: true
+# Supported security modes
+security: ['OPEN', 'WPA2', 'WPA3']
+# Default regulatory domain
+regulatory_domain: US
+# Location of SSL certificates
+cert_dir_path: /var/certs/
+# Location for firmware upgrade images
+fw_download_path: /tmp/pfirmware
+# OpenSync home directory
+opensync_rootdir: &opensync_rootdir /usr/opensync
+# Append the following locations to the default system PATH
+shell_path: /bin:/sbin:/usr/bin:/usr/sbin:/opt/bin:/opt/sbin:/opt/we/tools:/usr/opensync/tools:/usr/opensync/bin:/usr/plume/tools:/usr/plume/bin
+# Command for reading system logs (including any parameters, e.g. "cat /var/log/messages")
+logread: logread
+# 'logread method' for FRV. Available options: logread_v1, logread_v2 (json), logread_v3 (cat <file_name>)
+frv_logread: logread_v2
+# WiFi chip vendor (a.k.a. device family). Supported options: qca, bcm, mtk, rdk
+wifi_vendor: qca
+# Does device have a fan for active cooling
+active_cooling: true
+# Is device able to change the regulatory domain
+regulatory_domain_managed: true
+
+# Interface names and radio information (in case of a single 5 GHz radio, use only the '5g' key)
+interfaces:
+  radio_hw_mode:
+    24g: 11ax
+    5g: 11ax
+    5gl: null
+    5gu: null
+    6g: 11ax
+
+  max_channel_width:
+    24g: 40
+    5g: 80
+    5gl: null
+    5gu: null
+    6g: 160
+
+  backhaul_sta:
+    24g: bhaul-sta-24
+    5g: bhaul-sta-50
+    5gl: null
+    5gu: null
+    6g: bhaul-sta-60
+
+  backhaul_ap:
+    24g: b-ap-24
+    5g: b-ap-50
+    5gl: null
+    5gu: null
+    6g: b-ap-60
+
+  home_ap:
+    24g: home-ap-24
+    5g: home-ap-50
+    5gl: null
+    5gu: null
+    6g: home-ap-60
+
+  onboard_ap:
+    24g: onboard-ap-24
+    5g: onboard-ap-50
+    5gl: null
+    5gu: null
+    6g: onboard-ap-60
+
+  aux_1_ap:
+    24g: svc-d-ap-24
+    5g: svc-d-ap-50
+    5gl: null
+    5gu: null
+    6g: svc-d-ap-60
+
+  aux_2_ap:
+    24g: svc-e-ap-24
+    5g: svc-e-ap-50
+    5gl: null
+    5gu: null
+    6g: svc-e-ap-60
+
+  fhaul_ap:
+    24g: fh-24
+    5g: fh-50
+    5gl: null
+    5gu: null
+    6g: fh-60
+
+  cportal_ap:
+    24g: cp-24
+    5g: cp-50
+    5gl: null
+    5gu: null
+    6g: cp-60
+
+  haahs_ap:
+    24g: haahs-ap-24
+    5g: haahs-ap-50
+    5gl: null
+    5gu: null
+    6g: haahs-ap-60
+
+  uplink_gre:
+    24g: g-bhaul-sta-24
+    5g: g-bhaul-sta-50
+    5gl: null
+    5gu: null
+    6g: g-bhaul-sta-60
+
+  phy_radio_name:
+    24g: wifi1
+    5g: wifi0
+    5gl: null
+    5gu: null
+    6g: wifi2
+
+  radio_antennas:
+    24g: 2x2
+    5g: 4x4
+    5gl: null
+    5gu: null
+    6g: 4x4
+
+  vif_radio_idx:
+    backhaul_ap: 1
+    backhaul_sta: 0
+    home_ap: 2
+    onboard_ap: 3
+    aux_1_ap: 4
+    aux_2_ap: 5
+    fhaul_ap: 6
+    cportal_ap: 7
+    haahs_ap: 8
+
+  radio_channels:
+    24g: [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13 ]
+    5g: [ 36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112, 116, 120, 124, 128, 132, 136, 140, 149, 153, 157, 161, 165 ]
+    5gl: null
+    5gu: null
+    6g: [ 1, 5, 9, 13, 17, 21, 25, 29, 33, 37, 41, 45, 49, 53, 57, 61, 65, 69, 73, 77, 81, 85, 89, 93, 97, 101, 105, 109, 113, 117, 121, 125, 129, 133, 137, 141, 145, 149, 153, 157, 161, 165, 169, 173, 177, 181, 185, 189, 193, 197, 201, 205, 209, 213, 217, 221, 225, 229, 233 ]
+
+  lan_bridge: br-home
+  wan_bridge: br-wan
+  management_interface: eth1.4
+  primary_wan_interface: eth1
+  wan_interfaces: [eth0, eth1]
+  primary_lan_interface: eth0
+  lan_interfaces: [eth0, eth1]
+  ppp_wan_interface: ppp-wan
+  patch_port_lan_to_wan: patch-h2w
+  patch_port_wan_to_lan: patch-w2h
+
+# Maximum Transmission Unit (MTU) per link
+mtu:
+  backhaul: 1600
+  uplink_gre: 1562
+  wan: 1500
+
+# Key Performance Indicators (in seconds)
+kpi:
+  # time needed to get shell response after power on
+  boot_time: 70
+  # time from power on until Bluetooth starts beaconing (if supported)
+  bt_on_time: 30
+  # power on till gateway connected to the cloud controller (a.k.a. onboarding time)
+  cloud_gw_onboard_time: 120
+  # power on till leaf pods connected to the cloud controller
+  cloud_leaf_onboard_time: 180
+  # total onboarding time for a location (gateway with two leaf pods)
+  cloud_location_onboard_time: 300
+  # time needed to get the first optimization after the location is onboarded
+  cloud_first_optimization: 180
+  # time needed to change the topology of a location (extended for CAC in case of DFS channels)
+  topology_change_time: 120
+  # time needed to update network credentials on Home VAPs
+  network_credential_update: 10
+  # Statistics Manager restart
+  sm_restart: 10
+
+# DUT sanity checks to be performed during testing
+frv_sanity:
+  # file name where syslog is stored
+  sys_log_file_name: messages
+  # OVSDB tables to be analyzed
+  tables: [['AWLAN_Node table'],
+          ['Manager table'],
+          ['Bridge table'],
+          ['DHCP_leased_IP table'],
+          ['Interface table'],
+          ['Wifi_Master_State table'],
+          ['Wifi_Inet_Config table', 'Wifi_Inet_State table'],
+          ['Wifi_Radio_Config table', 'Wifi_Radio_State table'],
+          ['Wifi_VIF_Config table', 'Wifi_VIF_State table'],
+          ['Wifi_Associated_Clients table'],
+          ['Syslog sanity check']]
