@@ -3,5 +3,7 @@ device_type: linux
 username: plume
 # Password for device management SSH access
 password: plume
-# Stable FW version
-fw_version: 1.2.26
+# Stable FW version, used for upgrades
+fw_version: 1.2.31
+# Minimum FW version, needed for running tests
+min_fw_version: 1.2.25

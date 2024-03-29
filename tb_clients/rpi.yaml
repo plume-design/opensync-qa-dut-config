@@ -3,5 +3,7 @@ device_type: rpi
 username: plume
 # Password for device management SSH access
 password: plume
-# Stable FW version
-fw_version: 2.0-175
+# Stable FW version, used for upgrades
+fw_version: 2.0-194
+# Minimum FW version, needed for running tests
+min_fw_version: 2.0-173

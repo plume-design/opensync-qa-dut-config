@@ -23,7 +23,7 @@ opensync_rootdir: &opensync_rootdir /usr/opensync
 # Append the following locations to the default system PATH
 shell_path: /bin:/sbin:/usr/bin:/usr/sbin:/opt/bin:/opt/sbin:/usr/opensync/tools:/usr/opensync/bin
 # Command for reading system logs (including any parameters, e.g. "cat /var/log/messages")
-logread: logread
+logread: cat /var/log/messages
 # 'logread method' for FRV. Available options: logread_v1, logread_v2 (json), logread_v3 (cat <file_name>)
 frv_logread: logread_v2
 # WiFi chip vendor (a.k.a. device family). Supported options: qca, bcm, mtk, rdk

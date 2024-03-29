@@ -1,5 +1,5 @@
 # Exact model name (case sensitive!)
-model_string: IPQ807X-AP-HK09
+model_string: BCM94916REF2
 # DUT type. Available options: extender, residential_gateway
 device_type: extender
 # Username for device management SSH access (null if not supported)
@@ -11,7 +11,7 @@ dfs: true
 # Is controller fully managing Home VAPs
 home_ap_managed: true
 # Supported security modes
-security: ['OPEN', 'WPA2']
+security: ['OPEN', 'WPA2', 'WPA3']
 # Default regulatory domain
 regulatory_domain: US
 # Location of SSL certificates
@@ -23,11 +23,11 @@ opensync_rootdir: &opensync_rootdir /usr/opensync
 # Append the following locations to the default system PATH
 shell_path: /bin:/sbin:/usr/bin:/usr/sbin:/opt/bin:/opt/sbin:/usr/opensync/tools:/usr/opensync/bin
 # Command for reading system logs (including any parameters, e.g. "cat /var/log/messages")
-logread: cat /var/log/messages
+logread: logread
 # 'logread method' for FRV. Available options: logread_v1, logread_v2 (json), logread_v3 (cat <file_name>)
-frv_logread: logread_v3
+frv_logread: logread_v2
 # WiFi chip vendor (a.k.a. device family). Supported options: qca, bcm, mtk, rdk
-wifi_vendor: qca
+wifi_vendor: bcm
 # Does device have a fan for active cooling
 active_cooling: false
 # Is device able to change the regulatory domain
@@ -36,102 +36,102 @@ regulatory_domain_managed: false
 # Interface names and radio information (in case of a single 5 GHz radio, use only the '5g' key)
 interfaces:
   radio_hw_mode:
-    24g: 11ax
-    5g: 11ax
+    24g: 11be
+    5g: 11be
     5gl: null
     5gu: null
-    6g: null
+    6g: 11be
 
   max_channel_width:
     24g: 40
-    5g: 80
+    5g: 160
     5gl: null
     5gu: null
-    6g: null
+    6g: 320
 
   backhaul_sta:
-    24g: bhaul-sta-24
-    5g: bhaul-sta-50
+    24g: wl2
+    5g: wl0
     5gl: null
     5gu: null
-    6g: null
+    6g: wl1
 
   backhaul_ap:
-    24g: b-ap-24
-    5g: b-ap-50
+    24g: wl2.1
+    5g: wl0.1
     5gl: null
     5gu: null
-    6g: null
+    6g: wl1.1
 
   home_ap:
-    24g: home-ap-24
-    5g: home-ap-50
+    24g: wl2.2
+    5g: wl0.2
     5gl: null
     5gu: null
-    6g: null
+    6g: wl1.2
 
   onboard_ap:
-    24g: onboard-ap-24
-    5g: onboard-ap-50
+    24g: wl2.3
+    5g: wl0.3
     5gl: null
     5gu: null
-    6g: null
+    6g: wl1.3
 
   aux_1_ap:
-    24g: svc-d-ap-24
-    5g: svc-d-ap-50
+    24g: wl2.4
+    5g: wl0.4
     5gl: null
     5gu: null
-    6g: null
+    6g: wl1.4
 
   aux_2_ap:
-    24g: svc-e-ap-24
-    5g: svc-e-ap-50
+    24g: wl2.5
+    5g: wl0.5
     5gl: null
     5gu: null
-    6g: null
+    6g: wl1.5
 
   fhaul_ap:
-    24g: fh-24
-    5g: fh-50
+    24g: wl2.6
+    5g: wl0.6
     5gl: null
     5gu: null
-    6g: null
+    6g: wl1.6
 
   cportal_ap:
-    24g: cp-24
-    5g: cp-50
+    24g: wl2.7
+    5g: wl0.7
     5gl: null
     5gu: null
-    6g: null
+    6g: wl1.7
 
   haahs_ap:
-    24g: haahs-ap-24
-    5g: haahs-ap-50
+    24g: wl2.8
+    5g: wl0.8
     5gl: null
     5gu: null
-    6g: null
+    6g: wl1.8
 
   uplink_gre:
-    24g: g-b-sta-24
-    5g: g-b-sta-50
+    24g: g-wl2
+    5g: g-wl0
     5gl: null
     5gu: null
-    6g: null
+    6g: g-wl1
 
   phy_radio_name:
-    24g: wifi1
-    5g: wifi0
+    24g: wl2
+    5g: wl0
     5gl: null
     5gu: null
-    6g: null
+    6g: wl1
 
   radio_antennas:
-    24g: 4x4
-    5g: 4x4
+    24g: 2x2
+    5g: 2X2
     5gl: null
     5gu: null
-    6g: null
+    6g: 4x4
 
   vif_radio_idx:
     backhaul_ap: 1
@@ -145,27 +145,28 @@ interfaces:
     haahs_ap: 8
 
   radio_channels:
-    24g: [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 ]
-    5g: [ 36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112, 116, 120, 124, 128, 132, 136, 140, 144, 149, 153, 157, 161, 165 ]
+    24g: [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13 ]
+    5g: [ 36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112, 116, 120, 124, 128, 132, 136, 140, 144, 149, 153, 157, 161, 165, 169, 173, 177 ]
     5gl: null
     5gu: null
-    6g: null
+    6g: [ 1, 5, 9, 13, 17, 21, 25, 29, 33, 37, 41, 45, 49, 53, 57, 61, 65, 69, 73, 77, 81, 85, 89, 93, 97, 101, 105, 109, 113, 117, 121, 125, 129, 133, 137, 141, 145, 149, 153, 157, 161, 165, 169, 173, 177, 181, 185,
+ 189, 193, 197, 201, 205, 209, 213, 217, 221, 225, 229 ]
 
   lan_bridge: br-home
   wan_bridge: br-wan
-  management_interface: eth4.4
-  primary_wan_interface: eth4
-  wan_interfaces: [eth4, eth5]
-  primary_lan_interface: eth0
-  lan_interfaces: [eth0, eth1, eth2, eth3]
+  management_interface: eth0.4
+  primary_wan_interface: eth0
+  wan_interfaces: [eth0]
+  primary_lan_interface: eth1
+  lan_interfaces: [eth2, eth3, eth4, eth5, eth6 ]
   ppp_wan_interface: ppp-wan
   patch_port_lan_to_wan: patch-h2w
   patch_port_wan_to_lan: patch-w2h
 
 # Maximum Transmission Unit (MTU) per link
 mtu:
-  backhaul: 1600
-  uplink_gre: 1562
+  backhaul: 1552
+  uplink_gre: 1514
   wan: 1500
 
 # Key Performance Indicators (in seconds)

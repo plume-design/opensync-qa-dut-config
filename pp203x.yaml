@@ -57,17 +57,17 @@ interfaces:
     6g: null
 
   backhaul_ap:
-    24g: b(haul)?-ap-24
+    24g: b(haul)?(-ap)?-24
     5g: null
-    5gl: b(haul)?-ap-l50
-    5gu: b(haul)?-ap-u50
+    5gl: b(haul)?(-ap)?-l5(0)?
+    5gu: b(haul)?(-ap)?-u5(0)?
     6g: null
 
   home_ap:
-    24g: home-ap-24
+    24g: h(ome)?(-ap)?-24
     5g: null
-    5gl: home-ap-l50
-    5gu: home-ap-u50
+    5gl: h(ome)?(-ap)?-l5(0)?
+    5gu: h(ome)?(-ap)?-u5(0)?
     6g: null
 
   onboard_ap:

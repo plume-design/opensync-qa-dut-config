@@ -1,9 +1,7 @@
-device_type: debian
+device_type: client-pod
 # Username for device management SSH access
 username: plume
 # Password for device management SSH access
 password: plume
 # Stable FW version
-fw_version: 3.0.32
-# Minimum FW version needed for running tests
-min_fw_version: 3.0.18
+fw_version: null

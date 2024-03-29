@@ -57,18 +57,18 @@ interfaces:
     6g: bhaul-sta-60
 
   backhaul_ap:
-    24g: b-ap-24
-    5g: b-ap-50
+    24g: b(-ap)?-24
+    5g: b(-ap)?-50
     5gl: null
     5gu: null
-    6g: b-ap-60
+    6g: b(-ap)?-60
 
   home_ap:
-    24g: home-ap-24
-    5g: home-ap-50
+    24g: h(ome-ap)?-24
+    5g: h(ome-ap)?-50
     5gl: null
     5gu: null
-    6g: home-ap-60
+    6g: h(ome-ap)?-60
 
   onboard_ap:
     24g: onboard-ap-24
