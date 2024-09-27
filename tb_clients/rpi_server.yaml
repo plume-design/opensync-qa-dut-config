@@ -4,6 +4,6 @@ username: plume
 # Password for device management SSH access
 password: plume
 # Stable FW version, used for upgrades
-fw_version: 2.0-195
+fw_version: 2.0-202
 # Minimum FW version, needed for running tests
 min_fw_version: 2.0-174
