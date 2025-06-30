@@ -1,138 +1,161 @@
-# Exact model name (case sensitive!)
+# Exact model name (case-sensitive!)
 model_string: BCM94916REF2
-# DUT type. Available options: extender, residential_gateway
-device_type: extender
+# Does OpenSync control the WAN interface (formerly: DUT Type: extender/residential_gateway)?
+wan_link_selection: true
 # Username for device management SSH access (null if not supported)
 username: osync
 # Password for device management SSH access (null if not supported)
 password: osync123
-# Is Dynamic Frequency Selection (DFS) supported
-dfs: true
-# Is controller fully managing Home VAPs
-home_ap_managed: true
+# Possible options for features
+# * DFS: If Dynamic Frequency Selection (DFS) is supported
+# * FULL_CONTROL: If controller is fully managing Home VAPs
+# * FAN: If device has a fan for active cooling
+# * REGION_CHANGE: If device is able to change the regulatory domain
+# * FLEX: If device supports FLEX
+# * EAA: : If device supports Energy Aware Adapt
+# * WAG: If device supports Wireless Access Gateway
+# * WPD: device is running Watchdog Proxy Daemon
+# * WDS: Wireless Distribution System - Uses the MultiAP 802.11 Wi-Fi frame instead of GRE encapsulation for backhaul communication
+# * LED_STATE: If LED state is being reported in device stats
+# * DNS_FAILOVER: if device can handle non-working DNS servers received via DHCP config
+# * ADV_ETH_CLIENT_DET: If eth clients are being ARP-ed
+# * FLEX_IPV6_PHASE_I: If device supports IPv6 Flex tunnel endpoint
+# * FLEX_IPV6_PHASE_II: If device supports IPv6 internet access over Flex tunnel
+# * LAN_LATENCY: If device supports Lan Latency
+# * HOTSPOT_20: If device supports HotSpot 2.0
+# * PROXIMITY: If device supports PROXIMITY
+# * LTE: If device supports backup uplink over LTE
+# * PoE: If device can be powered over Ethernet
+# * RBUS: If device supports OpenSync BUS using rbus
+# * FAST_ROAMING: If device supports FAST_ROAMING
+# * TOPOLOGY_SNAPSHOT: If device supports TOPOLOGY_SNAPSHOT
+# * UBUS: If device supports OpenSync BUS using ubus
+# * REVSSH: If device supports reverse SSH
+# * RADAR_CHANNEL_STATES: If device supports interpreting channel states for radar events
+# * RADAR_DISRUPTIONS: If device supports reducing RADAR_DISRUPTIONS
+# * MLO_FH: If device supports MLO on the fronthaul only
+# * MLO_BH: If the device supports MLO backhaul
+# * SKIPACCEL: If device supports SKIPLOG or skipaccel NF target
+# * MCAST_ACCEL: If device supports multicast traffic acceleration
+# * TX_POWER_CONFIGURABLE: If device supports configuring radio transmission power via ovsdb
+features:
+  RADAR_DISRUPTIONS: {min_fw: 6.6.0-0, eos_fw: null}
+  DFS: {}
+  FULL_CONTROL: {}
+  WPD: {min_fw: 6.6.0-0, eos_fw: null}
+  RBUS: {min_fw: 6.2.0-0, eos_fw: null}
+  WAG: {min_fw: 6.6.0-0, eos_fw: null}
+  DNS_FAILOVER: {min_fw: 6.4.0-0, eos_fw: null}
+  HOTSPOT_20: {min_fw: 6.4.1-0, eos_fw: null}
+  SKIPACCEL: {min_fw: 6.6.0-0, eos_fw: null}
+  REVSSH: {min_fw: 6.2.0-0, eos_fw: null}
+  WDS: {min_fw: 6.2.0-0, eos_fw: null}
+  MCAST_ACCEL: {min_fw: 6.2.0-0, eos_fw: null}
+  TX_POWER_CONFIGURABLE: {}
 # Supported security modes
-security: ['OPEN', 'WPA2', 'WPA3']
+security: [OPEN, WPA2, WPA3]
 # Default regulatory domain
 regulatory_domain: US
 # Location of SSL certificates
 cert_dir_path: /var/certs/
 # Location for firmware upgrade images
-fw_download_path: /tmp/pfirmware
+fw_download_path: /tmp/firmware
 # OpenSync home directory
 opensync_rootdir: &opensync_rootdir /usr/opensync
 # Append the following locations to the default system PATH
 shell_path: /bin:/sbin:/usr/bin:/usr/sbin:/opt/bin:/opt/sbin:/usr/opensync/tools:/usr/opensync/bin
 # Command for reading system logs (including any parameters, e.g. "cat /var/log/messages")
-logread: logread
+logread: logread  # very simple logread without -p and -j
 # 'logread method' for FRV. Available options: logread_v1, logread_v2 (json), logread_v3 (cat <file_name>)
-frv_logread: logread_v2
+frv_logread: logread_v3
 # WiFi chip vendor (a.k.a. device family). Supported options: qca, bcm, mtk, rdk
 wifi_vendor: bcm
-# Does device have a fan for active cooling
-active_cooling: false
-# Is device able to change the regulatory domain
-regulatory_domain_managed: false
-
 # Interface names and radio information (in case of a single 5 GHz radio, use only the '5g' key)
 interfaces:
   radio_hw_mode:
     24g: 11be
     5g: 11be
-    5gl: null
-    5gu: null
+    5gl:
+    5gu:
     6g: 11be
-
   max_channel_width:
     24g: 40
     5g: 160
-    5gl: null
-    5gu: null
+    5gl:
+    5gu:
     6g: 320
-
   backhaul_sta:
     24g: wl2
     5g: wl0
-    5gl: null
-    5gu: null
+    5gl:
+    5gu:
     6g: wl1
-
   backhaul_ap:
     24g: wl2.1
     5g: wl0.1
-    5gl: null
-    5gu: null
+    5gl:
+    5gu:
     6g: wl1.1
-
   home_ap:
     24g: wl2.2
     5g: wl0.2
-    5gl: null
-    5gu: null
+    5gl:
+    5gu:
     6g: wl1.2
-
   onboard_ap:
     24g: wl2.3
     5g: wl0.3
-    5gl: null
-    5gu: null
+    5gl:
+    5gu:
     6g: wl1.3
-
   aux_1_ap:
     24g: wl2.4
     5g: wl0.4
-    5gl: null
-    5gu: null
+    5gl:
+    5gu:
     6g: wl1.4
-
   aux_2_ap:
     24g: wl2.5
     5g: wl0.5
-    5gl: null
-    5gu: null
+    5gl:
+    5gu:
     6g: wl1.5
-
   fhaul_ap:
     24g: wl2.6
     5g: wl0.6
-    5gl: null
-    5gu: null
+    5gl:
+    5gu:
     6g: wl1.6
-
   cportal_ap:
     24g: wl2.7
     5g: wl0.7
-    5gl: null
-    5gu: null
+    5gl:
+    5gu:
     6g: wl1.7
-
   haahs_ap:
     24g: wl2.8
     5g: wl0.8
-    5gl: null
-    5gu: null
+    5gl:
+    5gu:
     6g: wl1.8
-
   uplink_gre:
     24g: g-wl2
     5g: g-wl0
-    5gl: null
-    5gu: null
+    5gl:
+    5gu:
     6g: g-wl1
-
   phy_radio_name:
     24g: wl2
     5g: wl0
-    5gl: null
-    5gu: null
+    5gl:
+    5gu:
     6g: wl1
-
   radio_antennas:
     24g: 2x2
     5g: 2X2
-    5gl: null
-    5gu: null
+    5gl:
+    5gu:
     6g: 4x4
-
   vif_radio_idx:
     backhaul_ap: 1
     backhaul_sta: 0
@@ -143,32 +166,114 @@ interfaces:
     fhaul_ap: 6
     cportal_ap: 7
     haahs_ap: 8
-
+  mld_ifaces: {}
   radio_channels:
-    24g: [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13 ]
-    5g: [ 36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112, 116, 120, 124, 128, 132, 136, 140, 144, 149, 153, 157, 161, 165, 169, 173, 177 ]
-    5gl: null
-    5gu: null
-    6g: [ 1, 5, 9, 13, 17, 21, 25, 29, 33, 37, 41, 45, 49, 53, 57, 61, 65, 69, 73, 77, 81, 85, 89, 93, 97, 101, 105, 109, 113, 117, 121, 125, 129, 133, 137, 141, 145, 149, 153, 157, 161, 165, 169, 173, 177, 181, 185,
- 189, 193, 197, 201, 205, 209, 213, 217, 221, 225, 229 ]
-
+    24g: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
+    5g:
+      - 36
+      - 40
+      - 44
+      - 48
+      - 52
+      - 56
+      - 60
+      - 64
+      - 100
+      - 104
+      - 108
+      - 112
+      - 116
+      - 120
+      - 124
+      - 128
+      - 132
+      - 136
+      - 140
+      - 144
+      - 149
+      - 153
+      - 157
+      - 161
+      - 165
+      - 169
+      - 173
+      - 177
+    5gl:
+    5gu:
+    6g:
+      - 1
+      - 5
+      - 9
+      - 13
+      - 17
+      - 21
+      - 25
+      - 29
+      - 33
+      - 37
+      - 41
+      - 45
+      - 49
+      - 53
+      - 57
+      - 61
+      - 65
+      - 69
+      - 73
+      - 77
+      - 81
+      - 85
+      - 89
+      - 93
+      - 97
+      - 101
+      - 105
+      - 109
+      - 113
+      - 117
+      - 121
+      - 125
+      - 129
+      - 133
+      - 137
+      - 141
+      - 145
+      - 149
+      - 153
+      - 157
+      - 161
+      - 165
+      - 169
+      - 173
+      - 177
+      - 181
+      - 185
+      - 189
+      - 193
+      - 197
+      - 201
+      - 205
+      - 209
+      - 213
+      - 217
+      - 221
+      - 225
+      - 229
   lan_bridge: br-home
   wan_bridge: br-wan
-  management_interface: eth0.4
-  primary_wan_interface: eth0
-  wan_interfaces: [eth0]
-  primary_lan_interface: eth1
-  lan_interfaces: [eth2, eth3, eth4, eth5, eth6 ]
+  management_interface: eth4.4
+  primary_wan_interface: eth4
+  wan_interfaces: [eth4]
+  primary_lan_interface: eth0
+  lan_interfaces: [eth0, eth1, eth2, eth3]
   ppp_wan_interface: ppp-wan
   patch_port_lan_to_wan: patch-h2w
   patch_port_wan_to_lan: patch-w2h
-
 # Maximum Transmission Unit (MTU) per link
 mtu:
   backhaul: 1552
   uplink_gre: 1514
   wan: 1500
-
 # Key Performance Indicators (in seconds)
 kpi:
   # time needed to get shell response after power on
@@ -189,21 +294,21 @@ kpi:
   network_credential_update: 10
   # Statistics Manager restart
   sm_restart: 10
-
 # DUT sanity checks to be performed during testing
 frv_sanity:
   # file name where syslog is stored
   sys_log_file_name: messages
   # OVSDB tables to be analyzed
-  tables: [['AWLAN_Node table'],
-          ['Manager table'],
-          ['Bridge table'],
-          ['DHCP_leased_IP table'],
-          ['Interface table'],
-          ['Wifi_Master_State table'],
-          ['Wifi_Inet_Config table', 'Wifi_Inet_State table'],
-          ['Wifi_Radio_Config table', 'Wifi_Radio_State table'],
-          ['Wifi_VIF_Config table', 'Wifi_VIF_State table'],
-          ['Wifi_Associated_Clients table'],
-          ['Radios country code check'],
-          ['Syslog sanity check']]
+  tables:
+    - [AWLAN_Node table]
+    - [Manager table]
+    - [Bridge table]
+    - [DHCP_leased_IP table]
+    - [Interface table]
+    - [Wifi_Master_State table]
+    - [Wifi_Inet_Config table, Wifi_Inet_State table]
+    - [Wifi_Radio_Config table, Wifi_Radio_State table]
+    - [Wifi_VIF_Config table, Wifi_VIF_State table]
+    - [Wifi_Associated_Clients table]
+    - [Radios country code check]
+    - [Syslog sanity check]

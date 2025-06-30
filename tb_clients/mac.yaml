@@ -3,5 +3,9 @@ device_type: mac
 username: plume
 # Password for device management SSH access
 password: plume
-# Stable FW version
-fw_version: null
+# Minimum FW version required for running tests
+min_fw_version: 1.0.1
+# Stable FW version, used for upgrades
+fw_version: 1.0.1
+# Latest FW version, used for upgrades
+latest_fw_version: 1.0.1

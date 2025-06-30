@@ -1,5 +1,5 @@
 # Exact model name (case-sensitive!)
-model_string: PP203X
+model_string: PP443Z
 # Does OpenSync control the WAN interface (formerly: DUT Type: extender/residential_gateway)?
 wan_link_selection: true
 # Username for device management SSH access (null if not supported)
@@ -26,11 +26,11 @@ password: Plume1234Development
 # * PROXIMITY: If device supports PROXIMITY
 # * LTE: If device supports backup uplink over LTE
 # * PoE: If device can be powered over Ethernet
-# * RBUS: If device supports OpenSync BUS using rbus
+# * RBUS: If device supports OpenSync BUS using rbus (OFR-5119)
 # * FAST_ROAMING: If device supports FAST_ROAMING
 # * TOPOLOGY_SNAPSHOT: If device supports TOPOLOGY_SNAPSHOT
-# * UBUS: If device supports OpenSync BUS using ubus
-# * REVSSH: If device supports reverse SSH
+# * UBUS: If device supports OpenSync BUS using ubus (OFR-5119)
+# * REVSSH: If device supports reverse SSH (OFR-218)
 # * RADAR_CHANNEL_STATES: If device supports interpreting channel states for radar events
 # * RADAR_DISRUPTIONS: If device supports reducing RADAR_DISRUPTIONS
 # * MLO_FH: If device supports MLO on the fronthaul only
@@ -41,19 +41,27 @@ password: Plume1234Development
 features:
   RADAR_DISRUPTIONS: {min_fw: 6.6.0-0, eos_fw: null}
   PROXIMITY: {min_fw: 6.4.1-0, eos_fw: null}
-  EAA: {min_fw: 5.8.0-0, eos_fw: null}
+  EAA: {min_fw: 6.4.0-0, eos_fw: null}
+  WAG: {min_fw: 6.4.0-0, eos_fw: null}
+  FLEX: {min_fw: 5.4.0-0, eos_fw: null}
   DFS: {}
   FULL_CONTROL: {}
   FAN: {}
   REGION_CHANGE: {}
+  DNS_FAILOVER: {min_fw: 6.4.0-0, eos_fw: null}
+  FLEX_IPV6_PHASE_I: {min_fw: 6.5.0-0, eos_fw: null}
+  FLEX_IPV6_PHASE_II: {min_fw: 6.5.0-0, eos_fw: null}
+  RBUS: {min_fw: 6.2.0-0, eos_fw: null}
+  REVSSH: {min_fw: 6.2.0-0, eos_fw: null}
+  LED_STATE: {min_fw: 6.4.0-0, eos_fw: null}
+  WPD: {min_fw: 6.4.1-0, eos_fw: null}
   WDS: {min_fw: 6.2.0-0, eos_fw: null}
   ADV_ETH_CLIENT_DET: {min_fw: 6.4.0-0, eos_fw: null}
-  LED_STATE: {min_fw: 6.4.0-0, eos_fw: null}
-  WPD: {min_fw: 6.2.0-0, eos_fw: null}
-  DNS_FAILOVER: {min_fw: 6.4.0-0, eos_fw: null}
-  UBUS: {min_fw: 5.8.0-7, eos_fw: null}
-  REVSSH: {min_fw: 6.2.0-0, eos_fw: null}
+  RADAR_CHANNEL_STATES: {min_fw: 6.4.1-0, eos_fw: null}
   HOTSPOT_20: { min_fw: 6.4.1-0, eos_fw: null}
+  SKIPACCEL: {min_fw: 6.6.0-0, eos_fw: null}
+  MCAST_ACCEL: {min_fw: 5.4.0-0, eos_fw: null}
+  TOPOLOGY_SNAPSHOT: {min_fw: 6.6.0-0, eos_fw: null}
   TX_POWER_CONFIGURABLE: {}
 # Supported security modes
 security: [OPEN, WPA2, WPA3]
@@ -64,100 +72,100 @@ cert_dir_path: /var/certs/
 # Location for firmware upgrade images
 fw_download_path: /tmp/pfirmware
 # OpenSync home directory
-opensync_rootdir: &opensync_rootdir /usr/opensync
+opensync_rootdir: /usr/opensync
 # Append the following locations to the default system PATH
-shell_path: /bin:/sbin:/usr/bin:/usr/sbin:/opt/bin:/opt/sbin:/usr/opensync/tools:/usr/opensync/bin:/usr/plume/tools:/usr/plume/bin
+shell_path: /bin:/sbin:/usr/bin:/usr/sbin:/opt/bin:/opt/sbin:/usr/opensync/tools:/usr/opensync/bin
 # Command for reading system logs (including any parameters, e.g. "cat /var/log/messages")
 logread: logread
 # 'logread method' for FRV. Available options: logread_v1, logread_v2 (json), logread_v3 (cat <file_name>)
 frv_logread: logread_v2
 # WiFi chip vendor (a.k.a. device family). Supported options: qca, bcm, mtk, rdk
-wifi_vendor: qca
+wifi_vendor: bcm
 # Interface names and radio information (in case of a single 5 GHz radio, use only the '5g' key)
 interfaces:
   radio_hw_mode:
-    24g: 11n
+    24g: 11ax
     5g:
-    5gl: 11ac
-    5gu: 11ac
+    5gl: 11ax
+    5gu: 11ax
     6g:
   max_channel_width:
-    24g: 40
+    24g: 20
     5g:
-    5gl: 80
-    5gu: 80
+    5gl: 160
+    5gu: 160
     6g:
   backhaul_sta:
-    24g: bhaul-sta-24
+    24g: wl1
     5g:
-    5gl: bhaul-sta-l50
-    5gu: bhaul-sta-u50
+    5gl: wl0
+    5gu: wl2
     6g:
   backhaul_ap:
-    24g: b(haul)?(-ap)?-24
+    24g: wl1.1
     5g:
-    5gl: b(haul)?(-ap)?-l5(0)?
-    5gu: b(haul)?(-ap)?-u5(0)?
+    5gl: wl0.1
+    5gu: wl2.1
     6g:
   home_ap:
-    24g: h(ome)?(-ap)?-24
+    24g: wl1.2
     5g:
-    5gl: h(ome)?(-ap)?-l5(0)?
-    5gu: h(ome)?(-ap)?-u5(0)?
+    5gl: wl0.2
+    5gu: wl2.2
     6g:
   onboard_ap:
-    24g: onboard-ap-24
+    24g: wl1.3
     5g:
-    5gl: onboard-ap-l50
-    5gu: onboard-ap-u50
+    5gl: wl0.3
+    5gu: wl2.3
     6g:
   aux_1_ap:
-    24g: svc-d-ap-24
+    24g: wl1.4
     5g:
-    5gl: svc-d-ap-l50
-    5gu: svc-d-ap-u50
+    5gl: wl0.4
+    5gu: wl2.4
     6g:
   aux_2_ap:
-    24g: svc-e-ap-24
+    24g: wl1.5
     5g:
-    5gl: svc-e-ap-l50
-    5gu: svc-e-ap-u50
+    5gl: wl0.5
+    5gu: wl2.5
     6g:
   fhaul_ap:
-    24g: fh-24
+    24g: wl1.6
     5g:
-    5gl: fh-l50
-    5gu: fh-u50
+    5gl: wl0.6
+    5gu: wl2.6
     6g:
   cportal_ap:
-    24g: cp-24
+    24g: wl1.7
     5g:
-    5gl: cp-l50
-    5gu: cp-u50
+    5gl: wl0.7
+    5gu: wl2.7
     6g:
   haahs_ap:
-    24g: haahs-ap-24
+    24g: wl1.8
     5g:
-    5gl: haahs-ap-l50
-    5gu: haahs-ap-u50
+    5gl: wl0.8
+    5gu: wl2.8
     6g:
   uplink_gre:
-    24g: g-bhaul-sta-24
+    24g: g-wl1
     5g:
-    5gl: g-bhaul-sta-l50
-    5gu: g-bhaul-sta-u50
+    5gl: g-wl0
+    5gu: g-wl2
     6g:
   phy_radio_name:
-    24g: wifi0
+    24g: wl1
     5g:
-    5gl: wifi1
-    5gu: wifi2
+    5gl: wl0
+    5gu: wl2
     6g:
   radio_antennas:
     24g: 2x2
     5g:
-    5gl: 2x2
-    5gu: 4x4
+    5gl: 4x4
+    5gu: 2x2
     6g:
   vif_radio_idx:
     backhaul_ap: 1
@@ -186,6 +194,7 @@ interfaces:
       - 132
       - 136
       - 140
+      - 144
       - 149
       - 153
       - 157
@@ -194,29 +203,29 @@ interfaces:
     6g:
   lan_bridge: br-home
   wan_bridge: br-wan
-  management_interface: eth0.4
-  primary_wan_interface: eth0
+  management_interface: eth1.4
+  primary_wan_interface: eth1
   wan_interfaces: [eth0, eth1]
-  primary_lan_interface: eth1
+  primary_lan_interface: eth0
   lan_interfaces: [eth0, eth1]
   ppp_wan_interface: ppp-wan
   patch_port_lan_to_wan: patch-h2w
   patch_port_wan_to_lan: patch-w2h
 # Maximum Transmission Unit (MTU) per link
 mtu:
-  backhaul: 1600
-  uplink_gre: 1562
+  backhaul: 1552
+  uplink_gre: 1514
   wan: 1500
 # Key Performance Indicators (in seconds)
 kpi:
   # time needed to get shell response after power on
   boot_time: 70
   # time from power on until Bluetooth starts beaconing (if supported)
-  bt_on_time: 30
+  bt_on_time: 65
   # power on till gateway connected to the cloud controller (a.k.a. onboarding time)
-  cloud_gw_onboard_time: 130
+  cloud_gw_onboard_time: 120
   # power on till leaf pods connected to the cloud controller
-  cloud_leaf_onboard_time: 190
+  cloud_leaf_onboard_time: 180
   # total onboarding time for a location (gateway with two leaf pods)
   cloud_location_onboard_time: 300
   # time needed to get the first optimization after the location is onboarded

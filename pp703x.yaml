@@ -1,5 +1,5 @@
 # Exact model name (case-sensitive!)
-model_string: PP203X
+model_string: PP703X
 # Does OpenSync control the WAN interface (formerly: DUT Type: extender/residential_gateway)?
 wan_link_selection: true
 # Username for device management SSH access (null if not supported)
@@ -26,11 +26,11 @@ password: Plume1234Development
 # * PROXIMITY: If device supports PROXIMITY
 # * LTE: If device supports backup uplink over LTE
 # * PoE: If device can be powered over Ethernet
-# * RBUS: If device supports OpenSync BUS using rbus
+# * RBUS: If device supports OpenSync BUS using rbus (OFR-5119)
 # * FAST_ROAMING: If device supports FAST_ROAMING
 # * TOPOLOGY_SNAPSHOT: If device supports TOPOLOGY_SNAPSHOT
-# * UBUS: If device supports OpenSync BUS using ubus
-# * REVSSH: If device supports reverse SSH
+# * UBUS: If device supports OpenSync BUS using ubus (OFR-5119)
+# * REVSSH: If device supports reverse SSH (OFR-218)
 # * RADAR_CHANNEL_STATES: If device supports interpreting channel states for radar events
 # * RADAR_DISRUPTIONS: If device supports reducing RADAR_DISRUPTIONS
 # * MLO_FH: If device supports MLO on the fronthaul only
@@ -39,22 +39,27 @@ password: Plume1234Development
 # * MCAST_ACCEL: If device supports multicast traffic acceleration
 # * TX_POWER_CONFIGURABLE: If device supports configuring radio transmission power via ovsdb
 features:
+  WAG: {min_fw: 7.0.0-0, eos_fw: null}
+  HOTSPOT_20: {min_fw: 7.0.0-0, eos_fw: null}
   RADAR_DISRUPTIONS: {min_fw: 6.6.0-0, eos_fw: null}
   PROXIMITY: {min_fw: 6.4.1-0, eos_fw: null}
-  EAA: {min_fw: 5.8.0-0, eos_fw: null}
   DFS: {}
   FULL_CONTROL: {}
   FAN: {}
   REGION_CHANGE: {}
-  WDS: {min_fw: 6.2.0-0, eos_fw: null}
-  ADV_ETH_CLIENT_DET: {min_fw: 6.4.0-0, eos_fw: null}
-  LED_STATE: {min_fw: 6.4.0-0, eos_fw: null}
-  WPD: {min_fw: 6.2.0-0, eos_fw: null}
   DNS_FAILOVER: {min_fw: 6.4.0-0, eos_fw: null}
-  UBUS: {min_fw: 5.8.0-7, eos_fw: null}
+  UBUS: {min_fw: 6.2.0-0, eos_fw: null}
   REVSSH: {min_fw: 6.2.0-0, eos_fw: null}
-  HOTSPOT_20: { min_fw: 6.4.1-0, eos_fw: null}
+  MLO_FH: {min_fw: 6.5.1-0, eos_fw: null}
+  MLO_BH: {min_fw: 6.7.1-0, eos_fw: null}
+  LED_STATE: {min_fw: 6.4.0-0, eos_fw: null}
+  WPD: {min_fw: 6.6.0-0, eos_fw: null}
+  ADV_ETH_CLIENT_DET: {min_fw: 6.4.0-0, eos_fw: null}
+  SKIPACCEL: {min_fw: 6.6.0-0, eos_fw: null}
+  MCAST_ACCEL: {min_fw: 6.2.0-0, eos_fw: null}
+  LAN_LATENCY: {min_fw: 7.0.0-0, eos_fw: null}
   TX_POWER_CONFIGURABLE: {}
+  FAST_ROAMING: {min_fw: 7.0.0-0, eos_fw: null}
 # Supported security modes
 security: [OPEN, WPA2, WPA3]
 # Default regulatory domain
@@ -66,7 +71,7 @@ fw_download_path: /tmp/pfirmware
 # OpenSync home directory
 opensync_rootdir: &opensync_rootdir /usr/opensync
 # Append the following locations to the default system PATH
-shell_path: /bin:/sbin:/usr/bin:/usr/sbin:/opt/bin:/opt/sbin:/usr/opensync/tools:/usr/opensync/bin:/usr/plume/tools:/usr/plume/bin
+shell_path: /bin:/sbin:/usr/bin:/usr/sbin:/opt/bin:/opt/sbin:/opt/we/tools:/usr/opensync/tools:/usr/opensync/bin:/usr/plume/tools:/usr/plume/bin
 # Command for reading system logs (including any parameters, e.g. "cat /var/log/messages")
 logread: logread
 # 'logread method' for FRV. Available options: logread_v1, logread_v2 (json), logread_v3 (cat <file_name>)
@@ -76,89 +81,89 @@ wifi_vendor: qca
 # Interface names and radio information (in case of a single 5 GHz radio, use only the '5g' key)
 interfaces:
   radio_hw_mode:
-    24g: 11n
-    5g:
-    5gl: 11ac
-    5gu: 11ac
-    6g:
+    24g: 11be
+    5g: 11be
+    5gl:
+    5gu:
+    6g: 11be
   max_channel_width:
-    24g: 40
-    5g:
-    5gl: 80
-    5gu: 80
-    6g:
+    24g: 20
+    5g: 160
+    5gl:
+    5gu:
+    6g: 320
   backhaul_sta:
     24g: bhaul-sta-24
-    5g:
-    5gl: bhaul-sta-l50
-    5gu: bhaul-sta-u50
-    6g:
+    5g: bhaul-sta-50
+    5gl:
+    5gu:
+    6g: bhaul-sta-60
   backhaul_ap:
-    24g: b(haul)?(-ap)?-24
-    5g:
-    5gl: b(haul)?(-ap)?-l5(0)?
-    5gu: b(haul)?(-ap)?-u5(0)?
-    6g:
+    24g: b(-ap)?-24
+    5g: b(-ap)?-50
+    5gl:
+    5gu:
+    6g: b(-ap)?-60
   home_ap:
-    24g: h(ome)?(-ap)?-24
-    5g:
-    5gl: h(ome)?(-ap)?-l5(0)?
-    5gu: h(ome)?(-ap)?-u5(0)?
-    6g:
+    24g: h(ome-ap)?-24
+    5g: h(ome-ap)?-50
+    5gl:
+    5gu:
+    6g: h(ome-ap)?-60
   onboard_ap:
     24g: onboard-ap-24
-    5g:
-    5gl: onboard-ap-l50
-    5gu: onboard-ap-u50
-    6g:
+    5g: onboard-ap-50
+    5gl:
+    5gu:
+    6g: onboard-ap-60
   aux_1_ap:
     24g: svc-d-ap-24
-    5g:
-    5gl: svc-d-ap-l50
-    5gu: svc-d-ap-u50
-    6g:
+    5g: svc-d-ap-50
+    5gl:
+    5gu:
+    6g: svc-d-ap-60
   aux_2_ap:
     24g: svc-e-ap-24
-    5g:
-    5gl: svc-e-ap-l50
-    5gu: svc-e-ap-u50
-    6g:
+    5g: svc-e-ap-50
+    5gl:
+    5gu:
+    6g: svc-e-ap-60
   fhaul_ap:
     24g: fh-24
-    5g:
-    5gl: fh-l50
-    5gu: fh-u50
-    6g:
+    5g: fh-50
+    5gl:
+    5gu:
+    6g: fh-60
   cportal_ap:
     24g: cp-24
-    5g:
-    5gl: cp-l50
-    5gu: cp-u50
-    6g:
+    5g: cp-50
+    5gl:
+    5gu:
+    6g: cp-60
   haahs_ap:
     24g: haahs-ap-24
-    5g:
-    5gl: haahs-ap-l50
-    5gu: haahs-ap-u50
-    6g:
+    5g: haahs-ap-50
+    5gl:
+    5gu:
+    6g: haahs-ap-60
   uplink_gre:
     24g: g-bhaul-sta-24
-    5g:
-    5gl: g-bhaul-sta-l50
-    5gu: g-bhaul-sta-u50
-    6g:
+    5g: g-bhaul-sta-50
+    5gl:
+    5gu:
+    6g: g-bhaul-sta-60
   phy_radio_name:
     24g: wifi0
-    5g:
-    5gl: wifi1
-    5gu: wifi2
-    6g:
+    5g: wifi2
+    5gl:
+    5gu:
+    6g: wifi1
   radio_antennas:
     24g: 2x2
-    5g:
-    5gl: 2x2
-    5gu: 4x4
-    6g:
+    5g: 3x3
+    5gl:
+    5gu:
+    6g: 4x4
   vif_radio_idx:
     backhaul_ap: 1
     backhaul_sta: 0
@@ -169,12 +174,23 @@ interfaces:
     fhaul_ap: 6
     cportal_ap: 7
     haahs_ap: 8
-  mld_ifaces: {}
+  mld_ifaces:
+    backhaul_sta: mld0
+    backhaul_ap: mld1
+    home_ap: mld2
+    onboard_ap: mld3
+    fhaul_ap: mld6
   radio_channels:
     24g: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
     5g:
-    5gl: [36, 40, 44, 48, 52, 56, 60, 64]
-    5gu:
+      - 36
+      - 40
+      - 44
+      - 48
+      - 52
+      - 56
+      - 60
+      - 64
       - 100
       - 104
       - 108
@@ -186,18 +202,80 @@ interfaces:
       - 132
       - 136
       - 140
+      - 144
       - 149
       - 153
       - 157
       - 161
       - 165
+    5gl:
+    5gu:
     6g:
+      - 1
+      - 5
+      - 9
+      - 13
+      - 17
+      - 21
+      - 25
+      - 29
+      - 33
+      - 37
+      - 41
+      - 45
+      - 49
+      - 53
+      - 57
+      - 61
+      - 65
+      - 69
+      - 73
+      - 77
+      - 81
+      - 85
+      - 89
+      - 93
+      - 97
+      - 101
+      - 105
+      - 109
+      - 113
+      - 117
+      - 121
+      - 125
+      - 129
+      - 133
+      - 137
+      - 141
+      - 145
+      - 149
+      - 153
+      - 157
+      - 161
+      - 165
+      - 169
+      - 173
+      - 177
+      - 181
+      - 185
+      - 189
+      - 193
+      - 197
+      - 201
+      - 205
+      - 209
+      - 213
+      - 217
+      - 221
+      - 225
+      - 229
+      - 233
   lan_bridge: br-home
   wan_bridge: br-wan
-  management_interface: eth0.4
-  primary_wan_interface: eth0
+  management_interface: eth1.4
+  primary_wan_interface: eth1
   wan_interfaces: [eth0, eth1]
-  primary_lan_interface: eth1
+  primary_lan_interface: eth0
   lan_interfaces: [eth0, eth1]
   ppp_wan_interface: ppp-wan
   patch_port_lan_to_wan: patch-h2w
@@ -214,9 +292,9 @@ kpi:
   # time from power on until Bluetooth starts beaconing (if supported)
   bt_on_time: 30
   # power on till gateway connected to the cloud controller (a.k.a. onboarding time)
-  cloud_gw_onboard_time: 130
+  cloud_gw_onboard_time: 120
   # power on till leaf pods connected to the cloud controller
-  cloud_leaf_onboard_time: 190
+  cloud_leaf_onboard_time: 180
   # total onboarding time for a location (gateway with two leaf pods)
   cloud_location_onboard_time: 300
   # time needed to get the first optimization after the location is onboarded
@@ -243,5 +321,4 @@ frv_sanity:
     - [Wifi_Radio_Config table, Wifi_Radio_State table]
     - [Wifi_VIF_Config table, Wifi_VIF_State table]
     - [Wifi_Associated_Clients table]
-    - [Radios country code check]
     - [Syslog sanity check]
